@@ -1,2 +1,2 @@
-FROM runpod/worker-comfyui:5.8.5-base
+FROM ciellee78/worker-comfyui-redux:v2
 RUN comfy-node-install ComfyUI-GGUF
