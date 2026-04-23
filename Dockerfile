@@ -1,4 +1,4 @@
 FROM ciellee78/worker-comfyui-redux:v2
 RUN rm -rf /comfyui/custom_nodes/ComfyUI-PuLID-Flux && git clone https://github.com/balazik/ComfyUI-PuLID-Flux /comfyui/custom_nodes/ComfyUI-PuLID-Flux && pip install -r /comfyui/custom_nodes/ComfyUI-PuLID-Flux/requirements.txt && python3 -c "import re; f='/comfyui/custom_nodes/ComfyUI-PuLID-Flux/pulidflux.py'; c=open(f).read(); c=re.sub(r',\s*providers=\[provider \+ .ExecutionProvider.,\]', '', c); open(f,'w').write(c)"
-RUN python3 -c "import urllib.request, os; d='/comfyui/models/insightface/models/antelopev2/'; os.makedirs(d, exist_ok=True); base='https://huggingface.co/kidyu/antelopev2-for-InstantID-ComfyUI/resolve/main/'; [urllib.request.urlretrieve(base+f, d+f) or print('ok:', f) for f in ['scrfd_10g_bnkps.onnx','1k3d68.onnx','2d106det.onnx','genderage.onnx','glintr100.onnx']]"
+RUN python3 -c "from insightface.app import FaceAnalysis; FaceAnalysis(name='antelopev2', root='/comfyui/models/insightface')"
 RUN python3 -c "c=open('/comfyui/extra_model_paths.yaml').read(); c=c.rstrip()+'\n  pulid: models/pulid/\n' if 'pulid' not in c else c; open('/comfyui/extra_model_paths.yaml','w').write(c)"
